@@ -1151,6 +1151,1475 @@
             </div>
           </div>
           <div class="contact-form">
+            <form name="contact" netlify onsubmit="handleContact(event)">
+              <div class="form-group">
+                <label class="form-label" for="contact-name">Full Name</label>
+                <input class="form-input" id="contact-name" type="text" placeholder="Your full name" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-email">Email Address</label>
+                <input class="form-input" id="contact-email" type="email" placeholder="your@email.com" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-subject">Subject</label>
+                <input class="form-input" id="contact-subject" type="text" placeholder="Response to an essay, collaboration, etc." />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-message">Message</label>
+                <textarea class="form-textarea" id="contact-message" placeholder="Your message..." required></textarea>
+              </div>
+              <button class="form-submit" type="submit">Send Message</button>
+              <div class="form-success" id="contact-success">
+                Thank you for your message. I will get back to you as soon as possible.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Societas</div>
+          <div class="footer-brand-sub">by Amine Zidi</div>
+          <p class="footer-desc">An independent journal on politics, cinema, law and society.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/in/mohamed-amine-zidi-1709b72a9/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/MohamedAmine_78" target="_blank" rel="noopener" aria-label="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('home')" href="#">Home</a></li>
+            <li><a onclick="showPage('blog')" href="#">All Essays</a></li>
+            <li><a onclick="showPage('about')" href="#">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Topics</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('blog'); filterPosts('politique')" href="#">Politics &amp; Society</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('cinema')" href="#">Cinema &amp; Culture</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('sport')" href="#">Sport</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Societas, Amine Zidi. All rights reserved.</span>
+        <span>Written with passion. Published with sincerity.</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ══ JAVASCRIPT ═════════════════════════════════════════════════════ -->
+  <script>
+
+    /* ─── Theme Toggle ───────────────────────────────────────────── */
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('societas-theme', isDark ? 'dark' : 'light');
+    }
+
+    // Apply saved theme immediately
+    (function() {
+      const saved = localStorage.getItem('societas-theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-mode');
+      } else if (saved === 'light') {
+        document.body.classList.remove('dark-mode');
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches && window.innerWidth <= 768) {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+
+    /* ─── DATA: Blog Posts ─────────────────────────────────────────── */
+    /*
+    ╔═══════════════════════════════════════════════════════════╗
+    ║  HOW TO ADD A NEW POST:                                   ║
+    ║  1. Copy the object template below and fill in fields.    ║
+    ║  2. Add it to the `posts` array.                          ║
+    ║  3. Save and reload, it appears automatically.           ║
+    ║                                                           ║
+    ║  Categories: 'politique', 'sport', 'law', 'cinema'          ║
+    ╚═══════════════════════════════════════════════════════════╝
+    */
+    const posts = [
+            {
+        id: 4,
+        category: 'politique',
+        categoryLabel: 'Politics & Society',
+        title: 'Legalised Corruption: The Case Against Lobbying in America',
+        subtitle: 'How the American lobbying system quietly converts economic power into political outcomes.',
+        date: 'March 2026',
+        readtime: '10 min read',
+        excerpt: 'Every year, billions of dollars flow from corporations and interest groups into the American political system. It is entirely legal. That is exactly the problem.',
+        body: `
+          <p>There is a version of the lobbying debate that Washington prefers. In that version, lobbying is simply organised civic participation, interest groups exercising their constitutional right to petition government, providing legislators with information and expertise they would otherwise lack. It is imperfect, this version concedes, but it is the inevitable companion of a pluralist democracy in which diverse interests compete for influence. The alternative, a government insulated from organised pressure, sounds cleaner but tends to produce something worse.</p>
+
+          <p>That argument is not entirely without merit. But it depends on a fiction that the American system has long since abandoned: that the competition between interests is roughly balanced, that a coalition of uninsured patients carries the same political weight as the pharmaceutical industry, that a network of peace activists can match the institutional reach of a lobby with a $100 million annual budget and decades of cultivated relationships on Capitol Hill. The American lobbying system does not merely reflect the plurality of interests in a democracy. It systematically amplifies the interests of those who can afford to be heard and systematically silences those who cannot.</p>
+
+          <h2>The Mechanics of Capture</h2>
+          <p>To understand why lobbying in its current American form constitutes a structural deformation of democracy rather than a feature of it, one must understand how it actually operates. The popular image it might convey, a man in a suit pressing cash into a politician's hand in a dim corridor, is both accurate as a historical artefact and completely inadequate as a description of modern practice. The very crude transactional bribe has largely been replaced by something more sophisticated and considerably harder to prosecute: the systematic capture of the cognitive and informational environment in which political decisions are made.</p>
+
+          <p>A major pharmaceutical company that is seeking to block drug price legislation does not buy a senator. It employs former Senate Finance Committee staffers who know the legislative calendar, the committee membership and the pressure points of the budget reconciliation process in granular detail. It commissions economic studies from respected institutions that quantify, with impressive precision, the innovation-destroying consequences of price controls. It funds a network of patient advocacy groups that will testify, in good faith, about the importance of continued research investment. It drafts model legislative language and makes it available to sympathetic offices. It donates to campaign committees on both sides of the aisle with the consistency of a utility paying its bills. And it does all of this over years and across electoral cycles, so that by the time a vote arrives, the institutional memory of the legislature has been quietly shaped around assumptions the industry spent considerable money installing.</p>
+
+          <h3>The Constitutional Architecture of Influence</h3>
+          <p>The legal framework that permits and protects this system rests on the First Amendment's guarantees of free speech and the right to petition government. For most of American history, those guarantees coexisted with limits on direct political spending. The Supreme Court's 2010 decision in Citizens United v. Federal Election Commission dismantled the most significant of those limits, holding that restrictions on independent political expenditures by corporations constituted an unconstitutional abridgement of free speech. The practical consequence was not merely legal but architectural: it removed the last structural ceiling on the translation of economic resources into political influence and invited a scale of organised money into American politics that has not been seen since the Gilded Age.</p>
+
+          <blockquote>
+            "The power of a lobby is not measured by what politicians say about it. It is measured by what they do not say, and by what never comes to a vote."
+          </blockquote>
+
+          <h2>AIPAC and the Boundary of Foreign Policy</h2>
+          <p>No case tests the limits of the lobbying system more acutely than that of the American Israel Public Affairs Committee. AIPAC is a domestic organisation, not registered as a foreign agent under the Foreign Agents Registration Act, yet its explicit and singular purpose is to shape the foreign policy of the United States government in favour of a foreign state. It pursues that purpose with a political infrastructure that has few equals in Washington: a national membership network, a rigorous candidate-vetting operation, a capacity to mobilise campaign donations to or against any member of Congress and a decades-long investment in relationships that span both parties and every level of government.</p>
+
+          <p>The outcomes of that investment are not speculative. Since 1946, the United States has transferred over $300 billion in economic and military assistance to Israel, making it the largest cumulative recipient of American foreign aid in history by a considerable margin. In October 2023, following the Hamas attacks and the subsequent Israeli military campaign in Gaza, Congress approved an emergency military assistance package exceeding $14 billion. It did so at a moment when polling showed significant and growing public ambivalence about unconditional support for Israeli military operations and when a number of senior American diplomatic and military officials were privately, and occasionally publicly, expressing concern about the conduct of the campaign.</p>
+
+          <p>What is analytically significant is not the policy outcome itself, which has legitimate strategic arguments on its side, but the narrowness of the space within which it was debated. Members of Congress who had previously and on the record criticised aspects of Israeli policy moderated their positions as the vote approached. Several who ultimately voted against the package subsequently faced primary challenges backed by substantial independent expenditure. The pattern is not isolated. It reflects a consistent and documented feature of AIPAC's political operation: the use of campaign finance not merely to reward allies but to impose costs on critics. Whether that constitutes legitimate political participation or the purchase of foreign policy with American taxpayer money is a question that the system, by design, makes very difficult to ask plainly.</p>
+
+          <h2>The Pharmaceutical Industry and the Legislation of Profit</h2>
+          <p>If the AIPAC case illustrates how lobbying distorts foreign policy, the pharmaceutical industry illustrates how it writes domestic law. The Medicare Modernization Act of 2003 contains a provision, unique among the health systems of wealthy democracies, that explicitly prohibits the federal government from negotiating prescription drug prices with manufacturers on behalf of Medicare beneficiaries. The provision was inserted into the legislation by a Congress in which the pharmaceutical industry had spent, in the preceding election cycle, over $100 million in campaign contributions and lobbying expenditure. The congressman who managed the bill through the House, Billy Tauzin, subsequently left Congress to become president of PhRMA, the pharmaceutical industry's primary trade association, at a reported salary of $2 million per year.</p>
+
+          <p>The human consequences of that legislative achievement are measurable and severe. American patients pay, on average, between two and four times more for branded prescription drugs than patients in comparable countries receiving the identical product from the identical manufacturer. Insulin, whose patent was donated to the University of Toronto in 1923 by its discoverers for the explicit purpose of ensuring affordable access, costs American diabetics several hundred dollars per month and a fraction of that in every other developed country. The documented cases of patients rationing or forgoing insulin due to cost, with fatal results, are not the tragic accidents of an otherwise functioning system. They are the predictable output of a system that was deliberately designed to prioritise manufacturer revenue over patient access.</p>
+
+          <h3>The Limits of Reform</h3>
+          <p>The Inflation Reduction Act of 2022 represented the first legislative breach in this architecture, granting Medicare limited authority to negotiate prices on a small and slowly expanding list of drugs. The pharmaceutical industry's response was instructive. Multiple companies filed suit in federal court arguing that the negotiation process, under which the government proposes a price and the manufacturer may accept or decline, constituted an unconstitutional taking of private property and violated the First Amendment by compelling commercial speech. The argument that being invited to negotiate infringes constitutional rights would be remarkable in any context. That it was advanced, with apparent seriousness, in the courts of a country whose constitution was written to constrain government power on behalf of citizens rather than corporate pricing strategies says something about the depth to which industry legal frameworks have penetrated American jurisprudence.</p>
+
+          <h2>Tobacco and the Strategy of Permanent Doubt</h2>
+          <p>The tobacco lobby's historical record provides what is perhaps the most consequential and most carefully documented case study of lobbying used not to pass legislation but to prevent it. Internal documents from major tobacco manufacturers, made public through litigation in the 1990s, established that the industry possessed substantial internal scientific evidence linking cigarette smoking to lung cancer as early as the 1950s. That evidence was not published. Instead, the industry funded an alternative scientific programme explicitly designed to produce contradictory findings, created front organisations presenting themselves as independent research bodies and developed the rhetorical strategy of emphasising "the controversy" over smoking's health effects as a substitute for engaging the underlying science.</p>
+
+          <p>The strategy was effective for roughly fifty years, during which federal regulation of tobacco advertising, labelling and sale remained limited and millions of Americans died of preventable smoking-related disease. Its more lasting legacy, however, was the model it provided. The techniques developed by tobacco lobbyists, manufacturing scientific uncertainty, funding credentialed doubt, attacking the institutional integrity of regulatory agencies and framing industry self-interest as the defence of consumer choice, were subsequently adopted with minimal modification by the fossil fuel industry in its response to climate science, by the sugar industry in its response to nutritional research and by the opioid manufacturers in their response to addiction data. The most destructive lobbying is not that which wins a vote. It is that which ensures the decisive vote is perpetually postponed.</p>
+
+          <h2>The Case for Organised Advocacy</h2>
+          <p>An honest account of lobbying cannot rest entirely on its pathologies. The same constitutional framework that enables pharmaceutical companies to shape drug pricing law also enabled the disability rights movement to achieve the Americans with Disabilities Act of 1990, one of the most significant expansions of civil rights in the post-war period. The sustained and organised advocacy of environmental groups was instrumental in the passage of the Clean Air Act, the Clean Water Act and the creation of the Environmental Protection Agency. The civil rights movement itself was, in a meaningful structural sense, a lobbying operation: organised constituencies applying sustained pressure on legislators to expand the boundaries of legal protection.</p>
+
+          <p>The point is not that these achievements invalidate the critique of corporate lobbying. It is that they reveal what the system could look like if the competition between interests were genuinely balanced. The difference between the disability rights coalition that lobbied for the ADA and the pharmaceutical industry that lobbied against Medicare price negotiation is not a difference in kind. It is a difference in resources that is so large as to become a difference in kind. One side had moral authority, grassroots mobilisation and the political logic of expanding rights. The other had researchers, former officials, funded think tanks, model legislation and the credible threat to end the political careers of legislators who voted incorrectly. The former won once, through extraordinary effort, in a specific historical moment. The latter wins reliably, in every session, as a matter of institutional routine.</p>
+
+          <div class="conclusion">
+            <strong>Conclusion.</strong> The American lobbying system is not a corruption of democracy. That framing is, in a precise sense, too generous. Corruption implies a deviation from a standard that the system was otherwise meeting. What the lobbying system represents is the gradual, legally sanctioned, constitutionally protected displacement of political equality by economic power as the operative principle of American governance. When organised money can reliably determine which questions get asked in Congress, which amendments survive committee and which officials rotate into which industry positions after leaving government, the formal machinery of democratic representation continues to function while its substantive content is quietly hollowed out. The elections happen. The votes are counted. And the legislation, with impressive consistency, reflects the preferences of those who could afford to be present in the room where it was written.
+          </div>
+
+          <div style="margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--border);">
+            <div style="font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bordeaux); font-weight: 500; margin-bottom: 20px;">Sources & Further Reading</div>
+            <div style="font-size: 0.875rem; line-height: 1.85; color: var(--muted);">
+              <p style="margin-bottom: 14px;"><strong style="color: var(--charcoal);">On lobbying spending and disclosure</strong><br/>
+              OpenSecrets — <em>Lobbying Data Summary</em> (opensecrets.org). The primary public database for federally disclosed lobbying expenditure under the Lobbying Disclosure Act. The $4.1 billion figure for 2022 is drawn from this source.</p>
+
+              <p style="margin-bottom: 14px;"><strong style="color: var(--charcoal);">On US aid to Israel</strong><br/>
+              Sharp, Jeremy M. — <em>U.S. Foreign Aid to Israel</em>, Congressional Research Service (updated annually). The most authoritative public accounting of cumulative American assistance. The $300 billion figure reflects inflation-adjusted historical totals consistent with CRS reporting.</p>
+
+              <p style="margin-bottom: 14px;"><strong style="color: var(--charcoal);">On Citizens United</strong><br/>
+              <em>Citizens United v. Federal Election Commission</em>, 558 U.S. 310 (2010). The Supreme Court opinion is publicly available through the Cornell Legal Information Institute (law.cornell.edu) and the Supreme Court's own website.</p>
+
+              <p style="margin-bottom: 14px;"><strong style="color: var(--charcoal);">On the Medicare drug pricing prohibition and the revolving door</strong><br/>
+              Pear, Robert — reporting on the Medicare Modernization Act of 2003 and the Tauzin appointment, <em>The New York Times</em>, 2004. The pharmaceutical industry's lobbying figures are drawn from OpenSecrets sector data.</p>
+
+              <p style="margin-bottom: 14px;"><strong style="color: var(--charcoal);">On tobacco industry document suppression</strong><br/>
+              The tobacco litigation documents are publicly available through the UCSF Industry Documents Library (industrydocuments.ucsf.edu), which holds over 14 million pages of internal industry records made public under the 1998 Master Settlement Agreement. Proctor, Robert N. — <em>Golden Holocaust: Origins of the Cigarette Catastrophe and the Case for Abolition</em> (2011) provides the most thorough academic treatment.</p>
+
+              <p style="margin-bottom: 14px;"><strong style="color: var(--charcoal);">On the insulin patent history</strong><br/>
+              The sale of the insulin patent for one dollar by Frederick Banting, Charles Best and James Collip to the University of Toronto in 1921 is documented in the university's historical records and widely reported. Fralick, Michael et al. — <em>Insulin Access and Affordability Working Group</em>, <em>New England Journal of Medicine</em> (2019) covers the contemporary pricing disparity.</p>
+
+              <p style="margin-bottom: 14px;"><strong style="color: var(--charcoal);">On the analytical framework</strong><br/>
+              Gilens, Martin and Page, Benjamin I. — <em>Testing Theories of American Politics: Elites, Interest Groups and Average Citizens</em>, <em>Perspectives on Politics</em> (2014). This study, examining 1,779 policy outcomes, found that economic elites and organised interest groups have substantial independent influence on US policy while average citizens have little to none. It is the empirical foundation for the argument about political equality being displaced by economic power.<br/><br/>
+              Lessig, Lawrence — <em>Republic, Lost: How Money Corrupts Congress and a Plan to Stop It</em> (2011). The most rigorous legal and political science argument for structural lobbying reform.<br/><br/>
+              Drutman, Lee — <em>The Business of America is Lobbying</em> (2015). The standard academic treatment of how corporate lobbying became the dominant form of political participation in Washington.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 5,
+        category: 'cinema',
+        categoryLabel: 'Cinema & Culture',
+        title: 'One Battle After Another: A Film About Who Actually Does the Work',
+        subtitle: 'Paul Thomas Anderson\'s latest is a sharp and often funny dissection of white supremacy, revolutionary posturing and the quiet heroism that never gets the medal.',
+        date: 'March 2026',
+        readtime: '9 min read',
+        excerpt: 'Paul Thomas Anderson\'s One Battle After Another is many things at once: a chase film, a black comedy, a political provocation. But at its core it is a film about a simple and uncomfortable question. Who actually does the work of resistance, and who just talks about it?',
+        body: `
+          <p>I watched Paul Thomas Anderson&#39;s <em>One Battle After Another</em> on my laptop, which is probably not how a film shot in VistaVision was intended to be seen. I am not sure it mattered. It held my attention completely from start to finish, which for a nearly three-hour film is not something I say lightly. I am not someone who finds it easy to sit still through long films. This one had me the whole way through.</p>
+
+          <p>What I want to do here is less a traditional review and more an attempt to work out what the film is actually arguing, because I think it is arguing something specific and important, and I think that argument is more complicated than most of the coverage has acknowledged. At its core, the film is asking a deceptively hard question: what does genuine resistance actually look like, and who is actually doing it?</p>
+
+          <h2>The Villain as Mirror: Sean Penn as Lockjaw</h2>
+          <p>There is a scene early in the film where Lockjaw steps into an elevator alongside Bob and, with the specific unsolicited energy of a man who cannot help himself, growls directly into his face: "You like Black girls? I love &#39;em. I love &#39;em." Sean Penn delivers the line with the total physical commitment he brings to everything in this film, jaw clenched, eyes slightly too wide, voice pitched at what one critic described as an inhuman low. It gets a laugh. It is also, in retrospect, the film&#39;s thesis statement in a single exchange.</p>
+
+          <p>Because that is who Lockjaw is. He is a white supremacist who has a documented sexual obsession with Black women. He is a man who built his career enforcing immigration detention and rose through the ranks on the back of it, who wears a medal named after the founding Grand Wizard of the Ku Klux Klan with the solemnity of a war hero, and who at the same time fathered a biracial child with Perfidia Beverly Hills, the French 75 revolutionary he became pathologically fixated on after she humiliated him during the detention centre raid. Anderson does not present these facts as contradictory. He presents them as entirely consistent. That is the point.</p>
+
+          <p>The Bedford Forrest medal deserves a moment. For those unfamiliar: Nathan Bedford Forrest was a Confederate general and the first Grand Wizard of the Ku Klux Klan. That Lockjaw receives a commendation bearing his name, and accepts it with the gravity of a man receiving the Congressional Medal of Honour, is not framed as shocking. It is framed as routine. One more ceremony in a long chain of institutional rituals that have been quietly normalising this kind of thing for generations. Anderson does not ask you to be horrified. He asks you to recognise it as familiar. The discomfort, if you feel it, comes from that recognition.</p>
+
+          <blockquote>
+            "Lockjaw fetishises Black women and wants to murder his own biracial daughter. Anderson presents these not as contradictions but as two expressions of the same thing: the need to possess and control what you cannot admit to desiring."
+          </blockquote>
+
+          <p>The full logic of the Lockjaw character only becomes clear when his goal is revealed. He wants membership in the Christmas Adventurers Club, a secret network of wealthy white supremacists that functions as the film&#39;s stand-in for every elite institution built around racial hierarchy. The club conducts background checks. One question on the screening form: have you ever been involved in an interracial relationship? Lockjaw lies. The club finds out anyway, because Willa exists. And so Lockjaw spends most of the film trying to locate and kill his own teenage daughter, the living evidence of who he actually is, so that the men whose approval he desperately needs will never have to know.</p>
+
+          <p>Penn plays all of this with a physical comedy that never once lets Lockjaw off the hook. He styles his hair with his own saliva. He walks like he has something lodged in his spine. He is giddy with excitement when the club invitation finally arrives, grinning through his scars like a child on Christmas morning, which makes it all the more precise when the gas starts filling the room shortly after. He was already dead. The club was always going to use him and dispose of him. The ideology that Lockjaw served his entire life had no more use for him than it did for anyone else it consumed. Penn ensures you understand this. You almost feel sorry for him for half a second. Then you remember what he was trying to do to Willa.</p>
+
+          <h2>Bob Ferguson: Revolutionary, Burnout, or Both?</h2>
+          <p>The Bob question is the one I have thought about most since watching the film, and I want to be precise about it because I think the easy reading gets it slightly wrong. Bob is not someone who never did anything. The film shows us clearly, in its electric first act, that he was a genuine member of the French 75, an explosives expert who participated in real operations including the liberation of a migrant detention camp alongside Perfidia. He was in it. He did the work. That matters and the film does not erase it.</p>
+
+          <p>What the film is interested in is what happened next. Sixteen years later, Bob is living under a false identity in Baktan Cross, and the gap between who he was and who he has become is the film&#39;s central comic and emotional engine. He spends most of the runtime in a plaid bathrobe. He cannot remember the revolutionary cell&#39;s code words. He is high more often than he is not. When he watches <em>The Battle of Algiers</em> on television, which is one of the film&#39;s best and funniest images, you do not get the sense that he is drawing inspiration from it. You get the sense that it is on in the background while he fails to concentrate on something else.</p>
+
+          <h3>DiCaprio and the Comedy of Burnout</h3>
+          <p>DiCaprio plays all of this with a physical comedy he has rarely been given room to use since <em>The Wolf of Wall Street</em>. Bob is not stupid and he is not cynical. He is burned out, which is a different and in some ways sadder condition. He has the politics, the history and the convictions. What he has lost, somewhere in sixteen years of hiding and paranoia, is the capacity to act on any of it with any consistency or effectiveness. Critics have noted that he accomplishes almost nothing of consequence in the film&#39;s second half, and that is true, but Anderson earns it because he shows us clearly what Bob used to be. The distance between that Bob and this one is where the film&#39;s real emotional weight lives.</p>
+
+          <p>His love for Willa is the one place where that distance collapses. Whatever Bob has failed at, his devotion to his daughter is unconditional and real, and DiCaprio makes you feel it in every scene they share. It is also, the film suggests quietly, the thing that pulled him out of active resistance in the first place. He had a child to protect. That is not cowardice. It is a human choice that comes with human costs.</p>
+
+          <h2>Sensei Sergio: The Revolutionary Who Does Not Call Himself One</h2>
+          <p>And then there is Benicio Del Toro as Sensei Sergio St. Carlos, and this is where the film becomes, for me, something genuinely important. Sergio runs a karate school. He does not give speeches. He does not watch <em>The Battle of Algiers</em>. What he does, quietly and continuously throughout the film, is shelter undocumented immigrants who have nowhere safe to go, what he himself calls his "Latino Harriet Tubman situation," absorbing the risk into his daily life with the matter-of-factness of someone who has long since stopped waiting for permission or recognition.</p>
+
+          <p>The detail that struck me most is this: Bob has known Sergio for years. Sergio trains his daughter. They have a relationship built on trust and proximity. And yet Bob had absolutely no idea that Sergio was running any of this. He did not know about the immigrants Sergio was sheltering. He did not know about the network. He did not know because Sergio never told him, never announced it and never sought credit for it. That is not an accident of the plot. It is the clearest possible statement of Sergio&#39;s entire philosophy. He is not doing this to be seen as someone who does this. He is just doing it.</p>
+
+          <p>The film makes this argument structurally as well as through character. When Bob has to flee the building and everything around him is collapsing, it is the community Sergio has quietly built over years that mobilises to help him. People he has never met, who owe him nothing, moving quickly and without hesitation because they are part of something Sergio constructed not through ideology or charisma but through years of showing up. And even when Bob is caught by the police, it is a nurse from that same community who saves him. Sergio is not in that scene. He does not need to be. The network exists and it works because he built it without ever making it about himself.</p>
+
+          <p>Del Toro&#39;s performance is built almost entirely on what it withholds. Sergio has the film&#39;s moral authority precisely because he never claims it. He does not frame what he does in ideological terms. He does not position himself as the more authentic radical. He simply acts, and the accumulation of those actions gives him a gravity that none of the louder characters can approach. Where Bob cannot remember a code word, Sergio can mobilise an entire community. The contrast is not between a coward and a hero. It is between someone whose resistance became a past-tense identity and someone for whom it is simply a present-tense practice.</p>
+
+          <p>Del Toro is sensational. I would watch an entire separate film about this character. The fact that he received an Oscar nomination for a role that has probably a third of DiCaprio&#39;s screen time says something about the quality of what he does with it.</p>
+
+          <h2>What Anderson Is Actually Arguing</h2>
+          <p>Some critics have objected that the film is too didactic, that Lockjaw is too buffoonish and the political lines too clearly drawn. I find this criticism mostly beside the point. White supremacy does not require sympathetic fictional representation to be properly understood, and making it ridiculous and dangerous simultaneously is not a failure of nuance. It is the most accurate observation the film makes.</p>
+
+          <p>Where I think the film is genuinely doing something more complex is in its treatment of the French 75 more broadly. Anderson is not simply saying the left good, right bad. He is examining what happens to political movements over time: the bureaucratic rigidity, the code-word obsession, the gap between the group&#39;s self-image and its actual capacity for action. The funniest scene in the film, where Bob cannot remember the password and the underground operator refuses to help him, is also a precise piece of political satire about how organisations devoted to change can end up more devoted to their own internal procedures than to the change itself.</p>
+
+          <div class="conclusion">
+            <strong>Conclusion.</strong> <em>One Battle After Another</em> is the kind of film that gives you things to think about for days after watching it, which is rarer than it should be. The easiest reading is that Bob is the fake revolutionary and Sergio is the real one, and that reading is not wrong. But it is incomplete. Bob raised Willa alone, without help, under a false identity and with Lockjaw hunting him. That is not nothing. The film is generous enough to hold both things at once: Bob is someone whose revolutionary fire burned down to almost nothing over sixteen years, and he is also someone who quietly did one of the hardest things a person can do, which is show up for his kid every day when the world was trying to find him. The film&#39;s argument is not that Bob is worthless. It is that Sergio, who got none of the mythology and asked for none of it, built something that actually works. The nurse who saves Bob at the end does not know Bob. She knows Sergio. That is the whole film in a single image.
+          </div>
+        `
+      }
+    ];
+
+    /* ─── State ──────────────────────────────────────────────────────── */
+    let currentFilter = 'all';
+
+    /* ─── Navigation ──────────────────────────────────────────────────── */
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      // Update nav active state
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      window.scrollTo(0, 0);
+      // Close mobile nav
+      document.getElementById('nav-links').classList.remove('open');
+    }
+
+    function showPost(id) {
+      const post = posts.find(p => p.id === id);
+      if (!post) return;
+      document.getElementById('art-breadcrumb-cat').textContent = post.categoryLabel;
+      document.getElementById('art-cat').textContent = post.categoryLabel;
+      document.getElementById('art-title').textContent = post.title;
+      document.getElementById('art-subtitle').textContent = post.subtitle;
+      document.getElementById('art-date').textContent = post.date;
+      document.getElementById('art-readtime').textContent = post.readtime;
+      document.getElementById('art-body').innerHTML = post.body;
+      showPage('article');
+    }
+
+    function toggleNav() {
+      document.getElementById('nav-links').classList.toggle('open');
+    }
+
+    /* ─── Filter ──────────────────────────────────────────────────────── */
+    function filterPosts(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      // Find matching button
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        if ((cat === 'all' && b.textContent.trim() === 'All') ||
+            b.getAttribute('onclick')?.includes(`'${cat}'`)) {
+          b.classList.add('active');
+        }
+      });
+      renderBlogList();
+    }
+
+    /* ─── Render ──────────────────────────────────────────────────────── */
+    function renderHomeGrid() {
+      const grid = document.getElementById('home-post-grid');
+      const shown = [...posts].sort((a, b) => b.id - a.id).slice(0, 3);
+      grid.innerHTML = shown.map(post => `
+        <article class="post-card" onclick="showPost(${post.id})">
+          <div class="post-card-image">${post.categoryLabel.split('&')[0].trim().charAt(0)}</div>
+          <div class="post-card-cat">${post.categoryLabel}</div>
+          <h3 class="post-card-title">${post.title}</h3>
+          <p class="post-card-excerpt">${post.excerpt.substring(0, 130)}…</p>
+          <div class="post-card-meta">${post.date} · ${post.readtime}</div>
+        </article>
+      `).join('');
+    }
+
+    function renderBlogList() {
+      const grid = document.getElementById('blog-list-grid');
+      const filtered = currentFilter === 'all' ? posts : posts.filter(p => p.category === currentFilter);
+      grid.innerHTML = filtered.map((post, i) => `
+        <div class="blog-list-item" onclick="showPost(${post.id})" data-cat="${post.category}">
+          <div class="blog-list-num">${String(i + 1).padStart(2, '0')}</div>
+          <div class="blog-list-content">
+            <div class="blog-list-cat">${post.categoryLabel}</div>
+            <h2 class="blog-list-title">${post.title}</h2>
+            <p class="blog-list-excerpt">${post.excerpt}</p>
+            <div class="blog-list-meta">${post.date} · ${post.readtime}</div>
+          </div>
+        </div>
+      `).join('');
+      if (filtered.length === 0) {
+        grid.innerHTML = `<p style="padding:40px 0; color:var(--muted); text-align:center; font-style:italic;">No essays in this category yet.</p>`;
+      }
+    }
+
+    /* ─── Forms ───────────────────────────────────────────────────────── */
+    function handleContact(e) {
+      e.preventDefault();
+      document.getElementById('contact-success').style.display = 'block';
+      e.target.reset();
+      // In production, integrate with Formspree, Netlify Forms or your backend here
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      const input = e.target.querySelector('.newsletter-input');
+      input.value = '';
+      input.placeholder = 'Thank you for subscribing!';
+      setTimeout(() => input.placeholder = 'your@email.com', 3000);
+    }
+
+    /* ─── Scroll ──────────────────────────────────────────────────────── */
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('site-nav');
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ─── Init ────────────────────────────────────────────────────────── */
+    renderHomeGrid();
+    renderBlogList();
+
+  </script>
+</body>
+</html>
+      :root {
+        --ivory: #f8f5f0;
+        --cream: #ede9e2;
+        --ink: #1a1714;
+        --charcoal: #3d3936;
+        --muted: #7a736e;
+        --bordeaux: #8b2035;
+        --bordeaux-light: #a8293f;
+        --gold: #c9a84c;
+        --white: #ffffff;
+        --border: #d8d2c8;
+      }
+      body { background: #f8f5f0 !important; color: #1a1714 !important; }
+      #site-nav { background: rgba(248, 245, 240, 0.97) !important; }
+      .dropdown { background: #ffffff !important; }
+      .hero-featured { background: #ffffff !important; }
+      .blog-header, .filter-bar { background: #f8f5f0 !important; }
+      .filter-btn { background: #ffffff !important; color: #3d3936 !important; }
+      .contact-form { background: #ffffff !important; }
+      .form-input, .form-textarea { background: #f8f5f0 !important; color: #1a1714 !important; }
+      .article-body blockquote { background: #ffffff !important; }
+      .article-body .conclusion { background: #ede9e2 !important; }
+      .newsletter { background: #ede9e2 !important; }
+      .newsletter-input { background: #ffffff !important; color: #1a1714 !important; }
+      .disc-item { background: #ffffff !important; }
+    }
+
+    /* ─── Dark Mode ───────────────────────────────────────────────── */
+    body.dark-mode {
+      --ivory:          #141210;
+      --cream:          #1e1b18;
+      --ink:            #f0ece6;
+      --charcoal:       #d0cac2;
+      --muted:          #9a938c;
+      --bordeaux:       #c0394f;
+      --bordeaux-light: #d94d63;
+      --border:         #2e2a26;
+      --white:          #1a1714;
+
+      background: #141210;
+      color: #f0ece6;
+    }
+
+    /* Nav */
+    body.dark-mode #site-nav {
+      background: rgba(20, 18, 16, 0.97);
+      border-bottom-color: #2e2a26;
+    }
+    body.dark-mode .nav-link { color: #d0cac2; }
+    body.dark-mode .dropdown {
+      background: #1e1b18;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .dropdown a { color: #d0cac2; }
+    body.dark-mode .dropdown a:hover { color: #f0ece6; background: #2a2622; }
+
+    /* Hero */
+    body.dark-mode .hero { background: #141210; }
+    body.dark-mode .hero-featured {
+      background: #1e1b18;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .feat-title { color: #f0ece6; }
+    body.dark-mode .feat-excerpt { color: #9a938c; }
+
+    /* Post cards */
+    body.dark-mode .post-card {
+      background: #1e1b18;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .post-card:hover { background: #242018; }
+    body.dark-mode .post-card-image {
+      background: #2a2622;
+      color: #3a3530;
+    }
+    body.dark-mode .post-card-title { color: #f0ece6; }
+    body.dark-mode .post-card-excerpt { color: #9a938c; }
+
+    /* Categories strip */
+    body.dark-mode .categories-strip { background: #0e0c0a; }
+    body.dark-mode .cat-item {
+      background: #1a1714;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .cat-name { color: #f0ece6; }
+    body.dark-mode .cat-desc { color: #9a938c; }
+
+    /* Blog page */
+    body.dark-mode .blog-header { background: #141210; }
+    body.dark-mode .filter-bar { background: #141210; border-color: #2e2a26; }
+    body.dark-mode .filter-btn {
+      background: #1e1b18;
+      color: #d0cac2;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .filter-btn:hover { border-color: #c0394f; color: #f0ece6; }
+    body.dark-mode .filter-btn.active {
+      background: #c0394f;
+      border-color: #c0394f;
+      color: #f0ece6;
+    }
+    body.dark-mode .blog-post-item {
+      border-bottom-color: #2e2a26;
+    }
+    body.dark-mode .blog-post-item:hover { background: #1e1b18; }
+    body.dark-mode .blog-post-title { color: #f0ece6; }
+    body.dark-mode .blog-post-excerpt { color: #9a938c; }
+    body.dark-mode .blog-post-meta { color: #7a736e; }
+
+    /* Article */
+    body.dark-mode .article-header { background: #141210; }
+    body.dark-mode .article-title { color: #f0ece6; }
+    body.dark-mode .article-subtitle { color: #9a938c; }
+    body.dark-mode .article-body { color: #d0cac2; }
+    body.dark-mode .article-body h2,
+    body.dark-mode .article-body h3 { color: #f0ece6; }
+    body.dark-mode .article-body blockquote {
+      background: #1e1b18;
+      border-left-color: #c0394f;
+      color: #d0cac2;
+    }
+    body.dark-mode .article-body .conclusion {
+      background: #1e1b18;
+      border-color: #2e2a26;
+      color: #d0cac2;
+    }
+
+    /* About */
+    body.dark-mode .about-portrait {
+      background: #1e1b18;
+      color: #c0394f;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .about-name { color: #f0ece6; }
+    body.dark-mode .about-role { color: #9a938c; }
+    body.dark-mode .disc-item {
+      background: #1e1b18;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .disc-name { color: #f0ece6; }
+    body.dark-mode .disc-desc { color: #9a938c; }
+    body.dark-mode .pull-quote {
+      border-left-color: #c0394f;
+      color: #d0cac2;
+    }
+
+    /* Newsletter */
+    body.dark-mode .newsletter { background: #1a1714; }
+    body.dark-mode .newsletter-input {
+      background: #141210;
+      color: #f0ece6;
+      border-color: #2e2a26;
+    }
+
+    /* Contact */
+    body.dark-mode .contact-form {
+      background: #1e1b18;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .form-input,
+    body.dark-mode .form-textarea {
+      background: #141210;
+      color: #f0ece6;
+      border-color: #2e2a26;
+    }
+    body.dark-mode .form-input::placeholder,
+    body.dark-mode .form-textarea::placeholder { color: #7a736e; }
+    body.dark-mode .form-label { color: #9a938c; }
+
+    /* Footer */
+    body.dark-mode footer { background: #0e0c0a; border-top-color: #2e2a26; }
+    body.dark-mode .footer-brand-name { color: #f0ece6; }
+    body.dark-mode .footer-brand-sub { color: #9a938c; }
+    body.dark-mode .footer-desc { color: #7a736e; }
+    body.dark-mode .footer-links a { color: #9a938c; }
+    body.dark-mode .footer-links a:hover { color: #c0394f; }
+    body.dark-mode .footer-social a { color: #9a938c; }
+    body.dark-mode .footer-social a:hover { color: #c0394f; }
+    body.dark-mode .footer-bottom { color: #7a736e; border-top-color: #2e2a26; }
+
+    /* ─── Reset & Base ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ─── Utility ─────────────────────────────────────────────────── */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+    .reading-container { max-width: var(--reading-w); margin: 0 auto; padding: 0 32px; }
+    .serif { font-family: var(--font-serif); }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── Navigation ──────────────────────────────────────────────── */
+    #site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nav-h);
+      background: rgba(248, 245, 240, 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    #site-nav.scrolled { box-shadow: 0 2px 20px rgba(26,23,20,0.08); }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 32px;
+      height: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; flex-direction: column; line-height: 1;
+      cursor: pointer;
+    }
+    .nav-logo-main {
+      font-family: var(--font-serif); font-size: 1.6rem; font-weight: 600;
+      letter-spacing: 0.04em; color: var(--ink);
+    }
+    .nav-logo-sub {
+      font-family: var(--font-sans); font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+      margin-top: 1px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links > li { position: relative; }
+    .nav-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 6px 14px; border-radius: 2px;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--charcoal); transition: color 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--bordeaux); }
+    .nav-link svg { width: 10px; height: 10px; transition: transform 0.2s; }
+    .nav-links > li:hover .nav-link svg { transform: rotate(180deg); }
+
+    /* Dropdown */
+    .dropdown {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      background: var(--white); border: 1px solid var(--border);
+      border-top: 2px solid var(--bordeaux);
+      min-width: 220px; padding: 8px 0;
+      opacity: 0; visibility: hidden; transform: translateY(-6px);
+      transition: all 0.2s; box-shadow: 0 8px 32px rgba(26,23,20,0.1);
+    }
+    .nav-links > li:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    .dropdown a {
+      display: block; padding: 10px 20px;
+      font-size: 0.78rem; font-weight: 400; letter-spacing: 0.05em;
+      color: var(--charcoal); transition: all 0.15s;
+    }
+    .dropdown a:hover { color: var(--bordeaux); background: var(--ivory); padding-left: 26px; }
+
+    /* Mobile menu toggle */
+    .nav-toggle { display: none; padding: 8px; color: var(--ink); }
+    .nav-toggle svg { width: 22px; height: 22px; }
+
+    /* ─── Hero ────────────────────────────────────────────────────── */
+    .hero {
+      padding-top: calc(var(--nav-h) + 80px); padding-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 32px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+    .hero-eyebrow span {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500;
+    }
+    .hero-eyebrow::after {
+      content: ''; flex: 1; height: 1px; background: var(--bordeaux); max-width: 60px;
+    }
+    .hero h1 {
+      font-family: var(--font-serif); font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300; line-height: 1.15; color: var(--ink); margin-bottom: 28px;
+    }
+    .hero h1 em { font-style: italic; color: var(--bordeaux); }
+    .hero-desc {
+      font-size: 1rem; line-height: 1.8; color: var(--charcoal); max-width: 440px;
+      margin-bottom: 36px;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px; background: var(--ink); color: var(--white);
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .hero-cta:hover { background: var(--bordeaux); }
+    .hero-cta svg { width: 14px; height: 14px; }
+
+    .hero-featured {
+      background: var(--white); border: 1px solid var(--border); padding: 36px;
+      position: relative; cursor: pointer; transition: box-shadow 0.3s;
+    }
+    .hero-featured:hover { box-shadow: 0 12px 40px rgba(26,23,20,0.1); }
+    .hero-featured::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--bordeaux);
+    }
+    .feat-cat {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; margin-bottom: 16px;
+    }
+    .feat-title {
+      font-family: var(--font-serif); font-size: 1.65rem; font-weight: 500;
+      line-height: 1.3; margin-bottom: 14px; color: var(--ink);
+    }
+    .feat-excerpt {
+      font-size: 0.9rem; line-height: 1.75; color: var(--muted); margin-bottom: 24px;
+    }
+    .feat-meta {
+      display: flex; align-items: center; gap: 16px;
+      font-size: 0.72rem; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase;
+    }
+    .feat-meta span::after { content: '·'; margin-left: 16px; }
+    .feat-meta span:last-child::after { display: none; }
+
+    /* ─── Section Headings ────────────────────────────────────────── */
+    .section-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 40px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .section-head h2 {
+      font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400;
+    }
+    .section-head a {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; transition: letter-spacing 0.2s;
+    }
+    .section-head a:hover { letter-spacing: 0.18em; }
+
+    /* ─── Post Grid ───────────────────────────────────────────────── */
+    .posts-section { padding: 72px 0; }
+    .post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .post-card {
+      cursor: pointer; transition: transform 0.25s;
+    }
+    .post-card:hover { transform: translateY(-4px); }
+    .post-card-image {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+      background: var(--cream); margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 2rem; color: var(--border);
+      overflow: hidden;
+    }
+    .post-card-cat {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; margin-bottom: 10px;
+    }
+    .post-card-title {
+      font-family: var(--font-serif); font-size: 1.25rem; font-weight: 500;
+      line-height: 1.35; margin-bottom: 10px; color: var(--ink);
+      transition: color 0.2s;
+    }
+    .post-card:hover .post-card-title { color: var(--bordeaux); }
+    .post-card-excerpt {
+      font-size: 0.875rem; line-height: 1.7; color: var(--muted); margin-bottom: 16px;
+    }
+    .post-card-meta {
+      font-size: 0.7rem; letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase;
+    }
+
+    /* ─── Categories Strip ────────────────────────────────────────── */
+    .categories-strip { padding: 60px 0; background: var(--ink); }
+    .categories-strip .section-head h2 { color: var(--white); }
+    .categories-strip .section-head { border-color: rgba(255,255,255,0.15); }
+    .categories-strip .section-head a { color: var(--gold); }
+    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.1); }
+    .cat-item {
+      background: var(--ink); padding: 36px 28px; cursor: pointer;
+      transition: background 0.25s; position: relative; overflow: hidden;
+    }
+    .cat-item:hover { background: var(--bordeaux); }
+    .cat-item-num {
+      font-family: var(--font-serif); font-size: 3rem; font-weight: 300;
+      color: rgba(255,255,255,0.12); position: absolute; top: 12px; right: 20px;
+    }
+    .cat-item-name {
+      font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400;
+      color: var(--white); margin-bottom: 8px; position: relative;
+    }
+    .cat-item-desc {
+      font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.6; position: relative;
+    }
+
+    /* ─── Blog Page ───────────────────────────────────────────────── */
+    .blog-header {
+      padding-top: calc(var(--nav-h) + 60px); padding-bottom: 48px;
+      border-bottom: 1px solid var(--border); background: var(--white);
+    }
+    .page-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; margin-bottom: 16px;
+    }
+    .page-title {
+      font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; margin-bottom: 16px;
+    }
+    .page-subtitle { font-size: 1rem; color: var(--muted); max-width: 540px; }
+
+    .filter-bar {
+      padding: 24px 0; border-bottom: 1px solid var(--border);
+      background: var(--white); position: sticky; top: var(--nav-h); z-index: 100;
+    }
+    .filter-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 32px;
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .filter-label {
+      font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-right: 8px; font-weight: 500;
+    }
+    .filter-btn {
+      padding: 7px 16px; border: 1px solid var(--border);
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+      color: var(--charcoal); background: var(--white); transition: all 0.2s; border-radius: 1px;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--ink); color: var(--white); border-color: var(--ink);
+    }
+    .filter-btn.active { background: var(--bordeaux); border-color: var(--bordeaux); }
+
+    .blog-list { padding: 56px 0; }
+    .blog-list-grid { display: grid; gap: 0; }
+    .blog-list-item {
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background 0.2s;
+    }
+    .blog-list-item:hover { background: rgba(248,245,240,0.6); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+    .blog-list-num {
+      font-family: var(--font-serif); font-size: 2.5rem; font-weight: 300;
+      color: var(--cream); line-height: 1; padding-top: 6px; width: 60px; text-align: right;
+      user-select: none;
+    }
+    .blog-list-content {}
+    .blog-list-cat {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; margin-bottom: 8px;
+    }
+    .blog-list-title {
+      font-family: var(--font-serif); font-size: 1.45rem; font-weight: 500;
+      line-height: 1.3; margin-bottom: 10px; color: var(--ink); transition: color 0.2s;
+    }
+    .blog-list-item:hover .blog-list-title { color: var(--bordeaux); }
+    .blog-list-excerpt {
+      font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 12px;
+    }
+    .blog-list-meta { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* ─── Article / Post ──────────────────────────────────────────── */
+    .article-header {
+      padding-top: calc(var(--nav-h) + 64px); padding-bottom: 56px;
+      border-bottom: 1px solid var(--border); background: var(--white);
+    }
+    .article-breadcrumb {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 32px; display: flex; align-items: center; gap: 10px;
+    }
+    .article-breadcrumb span { cursor: pointer; transition: color 0.2s; }
+    .article-breadcrumb span:hover { color: var(--bordeaux); }
+    .article-breadcrumb::after { display: none; }
+    .article-cat {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; margin-bottom: 20px;
+    }
+    .article-title {
+      font-family: var(--font-serif); font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 300; line-height: 1.2; margin-bottom: 20px;
+    }
+    .article-subtitle {
+      font-family: var(--font-serif); font-size: 1.2rem; font-weight: 300;
+      font-style: italic; color: var(--charcoal); margin-bottom: 28px; line-height: 1.6;
+    }
+    .article-meta {
+      display: flex; align-items: center; gap: 20px;
+      font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .article-meta-sep { color: var(--border); }
+
+    .article-body { padding: 64px 0; }
+    .article-body p { font-size: 1.05rem; line-height: 1.85; color: var(--charcoal); margin-bottom: 24px; }
+    .article-body h2 {
+      font-family: var(--font-serif); font-size: 1.7rem; font-weight: 500;
+      margin: 52px 0 20px; color: var(--ink); border-left: 3px solid var(--bordeaux); padding-left: 16px;
+    }
+    .article-body h3 {
+      font-family: var(--font-serif); font-size: 1.25rem; font-weight: 500;
+      margin: 36px 0 14px; color: var(--ink);
+    }
+    .article-body blockquote {
+      margin: 36px 0; padding: 28px 36px;
+      background: var(--white); border-left: 4px solid var(--bordeaux);
+      font-family: var(--font-serif); font-size: 1.2rem; font-style: italic;
+      line-height: 1.6; color: var(--charcoal);
+    }
+    .article-body .conclusion {
+      padding: 36px; background: var(--cream); border-top: 2px solid var(--bordeaux);
+      margin-top: 48px; font-family: var(--font-serif); font-style: italic;
+      font-size: 1.05rem; line-height: 1.8; color: var(--charcoal);
+    }
+    .article-back {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 48px; margin-bottom: 48px;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; cursor: pointer; transition: gap 0.2s;
+    }
+    .article-back:hover { gap: 12px; }
+
+    /* ─── About Page ──────────────────────────────────────────────── */
+    .about-hero {
+      padding-top: calc(var(--nav-h) + 80px); padding-bottom: 80px;
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: start;
+    }
+    .about-portrait {
+      width: 100%; aspect-ratio: 4/5;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 3rem; color: var(--border);
+      position: sticky; top: calc(var(--nav-h) + 32px);
+    }
+    .about-portrait-label {
+      margin-top: 12px; font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted); text-align: center;
+    }
+    .about-content .about-name {
+      font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 300; margin-bottom: 6px;
+    }
+    .about-content .about-role {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--bordeaux); font-weight: 500; margin-bottom: 32px;
+    }
+    .about-content p {
+      font-size: 1.05rem; line-height: 1.85; color: var(--charcoal); margin-bottom: 22px;
+    }
+    .about-content .pull-quote {
+      font-family: var(--font-serif); font-size: 1.4rem; font-weight: 300; font-style: italic;
+      color: var(--ink); border-left: 3px solid var(--bordeaux); padding: 16px 24px;
+      margin: 36px 0; line-height: 1.5;
+    }
+    .about-disciplines {
+      padding: 56px 0; border-top: 1px solid var(--border); margin-top: 48px;
+    }
+    .about-disciplines h3 {
+      font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 24px;
+    }
+    .disc-list { display: flex; flex-direction: column; gap: 12px; }
+    .disc-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px; border: 1px solid var(--border); background: var(--white);
+    }
+    .disc-dot { width: 8px; height: 8px; background: var(--bordeaux); border-radius: 50%; flex-shrink: 0; }
+    .disc-name { font-size: 0.9rem; font-weight: 500; }
+    .disc-desc { font-size: 0.82rem; color: var(--muted); }
+
+    /* ─── Contact Page ────────────────────────────────────────────── */
+    .contact-wrapper {
+      padding-top: calc(var(--nav-h) + 72px); padding-bottom: 80px;
+    }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: start; }
+    .contact-info p { font-size: 1rem; line-height: 1.8; color: var(--charcoal); margin-bottom: 20px; }
+    .contact-links { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; }
+    .contact-link-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.82rem; color: var(--charcoal); transition: color 0.2s;
+    }
+    .contact-link-item:hover { color: var(--bordeaux); }
+    .contact-link-item svg { width: 18px; height: 18px; color: var(--bordeaux); flex-shrink: 0; }
+
+    .contact-form { background: var(--white); padding: 44px; border: 1px solid var(--border); border-top: 3px solid var(--bordeaux); }
+    .form-group { margin-bottom: 28px; }
+    .form-label {
+      display: block; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-weight: 500; color: var(--charcoal); margin-bottom: 8px;
+    }
+    .form-input, .form-textarea {
+      width: 100%; padding: 12px 16px; border: 1px solid var(--border);
+      background: var(--ivory); font-family: var(--font-sans); font-size: 0.92rem;
+      color: var(--ink); transition: border-color 0.2s; outline: none;
+      border-radius: 0;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--bordeaux); background: var(--white); }
+    .form-textarea { resize: vertical; min-height: 140px; }
+    .form-submit {
+      width: 100%; padding: 16px; background: var(--ink); color: var(--white);
+      font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase; transition: background 0.2s;
+    }
+    .form-submit:hover { background: var(--bordeaux); }
+    .form-success {
+      display: none; padding: 16px; background: var(--cream);
+      border-left: 3px solid var(--bordeaux);
+      font-size: 0.9rem; color: var(--charcoal); margin-top: 16px;
+    }
+
+    /* ─── Newsletter ──────────────────────────────────────────────── */
+    .newsletter { padding: 72px 0; background: var(--cream); border-top: 1px solid var(--border); }
+    .newsletter-inner { max-width: 600px; margin: 0 auto; padding: 0 32px; text-align: center; }
+    .newsletter h2 { font-family: var(--font-serif); font-size: 2rem; font-weight: 400; margin-bottom: 12px; }
+    .newsletter p { font-size: 0.95rem; color: var(--muted); margin-bottom: 28px; }
+    .newsletter-form { display: flex; gap: 0; max-width: 440px; margin: 0 auto; }
+    .newsletter-input {
+      flex: 1; padding: 14px 18px; border: 1px solid var(--border); border-right: none;
+      background: var(--white); font-family: var(--font-sans); font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .newsletter-input:focus { border-color: var(--bordeaux); }
+    .newsletter-btn {
+      padding: 14px 24px; background: var(--bordeaux); color: var(--white);
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .newsletter-btn:hover { background: var(--ink); }
+
+    /* ─── Footer ──────────────────────────────────────────────────── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.7);
+      padding: 56px 0 32px;
+    }
+    .footer-grid {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 32px;
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px;
+      margin-bottom: 48px;
+    }
+    .footer-brand-name {
+      font-family: var(--font-serif); font-size: 1.6rem; font-weight: 600;
+      color: var(--white); margin-bottom: 4px;
+    }
+    .footer-brand-sub {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 16px;
+    }
+    .footer-desc { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.5); max-width: 280px; }
+    .footer-social { display: flex; gap: 12px; margin-top: 20px; }
+    .footer-social a {
+      width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5); transition: all 0.2s;
+    }
+    .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-social svg { width: 16px; height: 16px; }
+    .footer-col-title {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); font-weight: 500; margin-bottom: 16px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      font-size: 0.85rem; color: rgba(255,255,255,0.55); transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom {
+      max-width: var(--max-w); margin: 0 auto; padding: 24px 32px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.72rem; color: rgba(255,255,255,0.3); letter-spacing: 0.05em;
+    }
+
+    /* ─── Animations ──────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+    .fade-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .fade-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .fade-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+    /* ─── Dark Mode Toggle Button ────────────────────────────────── */
+    .theme-toggle {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); border-radius: 2px;
+      color: var(--charcoal); background: transparent;
+      cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--bordeaux); color: var(--bordeaux); }
+    .theme-toggle svg { width: 16px; height: 16px; }
+    .theme-toggle .icon-sun { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+    body.dark-mode .theme-toggle .icon-sun { display: block; }
+    body.dark-mode .theme-toggle .icon-moon { display: none; }
+
+    /* ─── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .post-grid { grid-template-columns: 1fr 1fr; }
+      .cat-grid { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-portrait { aspect-ratio: 3/2; position: static; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      :root { --nav-h: 60px; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: var(--nav-h); left: 0; right: 0;
+        background: var(--ivory); border-bottom: 1px solid var(--border);
+        padding: 16px 0; gap: 4px;
+      }
+      .nav-links .dropdown { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: none; padding: 0 16px 8px; }
+      .nav-toggle { display: flex; }
+      .post-grid { grid-template-columns: 1fr; }
+      .cat-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-input { border-right: 1px solid var(--border); border-bottom: none; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      .blog-list-num { display: none; }
+      .blog-list-item { grid-template-columns: 1fr; }
+      .container, .reading-container { padding: 0 20px; }
+      .filter-inner { padding: 0 20px; }
+      .nav-inner { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVIGATION ═══════════════════════════════════════════════════ -->
+  <nav id="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <div class="nav-logo" onclick="showPage('home')">
+        <span class="nav-logo-main">Societas</span>
+        <span class="nav-logo-sub">by Amine Zidi</span>
+      </div>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a class="nav-link active" onclick="showPage('home')" href="#" role="menuitem">Home</a></li>
+        <li><a class="nav-link" onclick="showPage('blog')" href="#" role="menuitem">Blog</a></li>
+        <li>
+          <a class="nav-link" href="#" role="menuitem">
+            Categories
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <div class="dropdown" role="menu">
+            <a role="menuitem" onclick="showPage('blog'); filterPosts('politique')">Politics &amp; Society</a>
+            <a role="menuitem" onclick="showPage('blog'); filterPosts('cinema')">Cinema &amp; Culture</a>
+            <a role="menuitem" onclick="showPage('blog'); filterPosts('law')">Law &amp; Policy</a>
+            <a role="menuitem" onclick="showPage('blog'); filterPosts('sport')">Sport</a>
+          </div>
+        </li>
+        <li><a class="nav-link" onclick="showPage('about')" href="#" role="menuitem">About</a></li>
+        <li><a class="nav-link" onclick="showPage('contact')" href="#" role="menuitem">Contact</a></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" onclick="toggleNav()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ PAGE: HOME ════════════════════════════════════════════════════ -->
+  <main id="page-home" class="page active">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-eyebrow fade-up"><span>Independent Journal</span></div>
+          <h1 class="fade-up fade-up-delay-1">Ideas that<br/><em>shape</em> the world.</h1>
+          <p class="hero-desc fade-up fade-up-delay-2">
+            Societas is a space for thinking about politics, cinema, law and society. A high school student sharing what he cares about, with the belief that ideas are worth discussing and taking seriously.
+          </p>
+          <a class="hero-cta fade-up fade-up-delay-3" onclick="showPage('blog')" href="#">
+            Read the Journal
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="hero-featured fade-up fade-up-delay-2" onclick="showPost(4)">
+          <div class="feat-cat">Featured · Politics &amp; Society</div>
+          <h2 class="feat-title">Legalised Corruption: The Case Against Lobbying in America</h2>
+          <p class="feat-excerpt">Every year, billions of dollars flow from corporations and interest groups into the American political system. It is entirely legal. That is exactly the problem.</p>
+          <div class="feat-meta">
+            <span>Amine Zidi</span>
+            <span>March 2026</span>
+            <span>12 min read</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Posts -->
+    <section class="posts-section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="serif">Latest Essays</h2>
+          <a onclick="showPage('blog')" href="#">View all essays →</a>
+        </div>
+        <div class="post-grid" id="home-post-grid"></div>
+      </div>
+    </section>
+
+    <!-- Categories Strip -->
+    <section class="categories-strip">
+      <div class="container">
+        <div class="section-head">
+          <h2>Topics</h2>
+          <a onclick="showPage('blog')" href="#" style="color:var(--gold)">Browse →</a>
+        </div>
+        <div class="cat-grid">
+          <div class="cat-item" onclick="showPage('blog'); filterPosts('politique')">
+            <div class="cat-item-num">01</div>
+            <div class="cat-item-name">Politics &amp; Society</div>
+            <div class="cat-item-desc">Political ideas, power dynamics and what shapes our societies.</div>
+          </div>
+          <div class="cat-item" onclick="showPage('blog'); filterPosts('sport')">
+            <div class="cat-item-num">02</div>
+            <div class="cat-item-name">Cinema &amp; Culture</div>
+            <div class="cat-item-desc">Film criticism and reflections on cinema as a way of understanding the world.</div>
+          </div>
+          <div class="cat-item" onclick="showPage('blog'); filterPosts('law')">
+            <div class="cat-item-num">03</div>
+            <div class="cat-item-name">Law &amp; Policy</div>
+            <div class="cat-item-desc">Constitutional theory, international law, judicial review and regulatory architecture.</div>
+          </div>
+          <div class="cat-item" onclick="showPage('blog'); filterPosts('sport')">
+            <div class="cat-item-num">04</div>
+            <div class="cat-item-name">Sport</div>
+            <div class="cat-item-desc">Football, tennis and what sport reveals about strategy and human character.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+      <div class="newsletter-inner">
+        <h2>Stay Connected</h2>
+        <p>Receive new essays directly in your inbox, no noise, no advertising. Un seul email par article. Jamais de spam.</p>
+        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+          <input class="newsletter-input" type="email" placeholder="your@email.com" required aria-label="Email address" />
+          <button class="newsletter-btn" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Societas</div>
+          <div class="footer-brand-sub">by Amine Zidi</div>
+          <p class="footer-desc">A high school student, a few passions and the belief that ideas are worth sharing.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/in/mohamed-amine-zidi-1709b72a9/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/MohamedAmine_78" target="_blank" rel="noopener" aria-label="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('home')" href="#">Home</a></li>
+            <li><a onclick="showPage('blog')" href="#">All Essays</a></li>
+            <li><a onclick="showPage('about')" href="#">About</a></li>
+            <li><a onclick="showPage('contact')" href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Topics</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('blog'); filterPosts('politique')" href="#">Politics &amp; Society</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('cinema')" href="#">Cinema &amp; Culture</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('law')" href="#">Law &amp; Policy</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('sport')" href="#">Sport</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Societas, Amine Zidi. All rights reserved.</span>
+        <span>Written with passion. Published with sincerity.</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ══ PAGE: BLOG ═════════════════════════════════════════════════════ -->
+  <main id="page-blog" class="page">
+    <div class="blog-header">
+      <div class="container">
+        <div class="page-eyebrow">Journal</div>
+        <h1 class="page-title serif">All Essays</h1>
+        <p class="page-subtitle">Essays on politics, cinema, law and society, written by a student who wants to share what matters to him.</p>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-inner">
+        <span class="filter-label">Filter:</span>
+        <button class="filter-btn active" onclick="filterPosts('all')">All</button>
+        <button class="filter-btn" onclick="filterPosts('politique')">Politics &amp; Society</button>
+        <button class="filter-btn" onclick="filterPosts('cinema')">Cinema &amp; Culture</button>
+        <button class="filter-btn" onclick="filterPosts('law')">Law &amp; Policy</button>
+        <button class="filter-btn" onclick="filterPosts('sport')">Sport</button>
+      </div>
+    </div>
+    <div class="blog-list">
+      <div class="container">
+        <div class="blog-list-grid" id="blog-list-grid"></div>
+      </div>
+    </div>
+
+    <!-- Reuse footer structure -->
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Societas</div>
+          <div class="footer-brand-sub">by Amine Zidi</div>
+          <p class="footer-desc">An independent journal on politics, cinema, law and society.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/in/mohamed-amine-zidi-1709b72a9/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/MohamedAmine_78" target="_blank" rel="noopener" aria-label="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('home')" href="#">Home</a></li>
+            <li><a onclick="showPage('blog')" href="#">All Essays</a></li>
+            <li><a onclick="showPage('about')" href="#">About</a></li>
+            <li><a onclick="showPage('contact')" href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Topics</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('blog'); filterPosts('politique')" href="#">Politics &amp; Society</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('cinema')" href="#">Cinema &amp; Culture</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('law')" href="#">Law &amp; Policy</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('sport')" href="#">Sport</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Societas, Amine Zidi. All rights reserved.</span>
+        <span>Written with passion. Published with sincerity.</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ══ PAGE: ARTICLE ══════════════════════════════════════════════════ -->
+  <main id="page-article" class="page">
+    <div class="article-header">
+      <div class="reading-container">
+        <div class="article-breadcrumb">
+          <span onclick="showPage('home')">Home</span> ›
+          <span onclick="showPage('blog')">Blog</span> ›
+          <span id="art-breadcrumb-cat"></span>
+        </div>
+        <div class="article-cat" id="art-cat"></div>
+        <h1 class="article-title serif" id="art-title"></h1>
+        <p class="article-subtitle serif" id="art-subtitle"></p>
+        <div class="article-meta">
+          <span>Amine Zidi</span>
+          <span class="article-meta-sep">·</span>
+          <span id="art-date"></span>
+          <span class="article-meta-sep">·</span>
+          <span id="art-readtime"></span>
+        </div>
+      </div>
+    </div>
+    <article class="article-body">
+      <div class="reading-container">
+        <div id="art-body"></div>
+        <div class="article-back" onclick="showPage('blog')">
+          ← Return to all essays
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- ══ PAGE: ABOUT ════════════════════════════════════════════════════ -->
+  <main id="page-about" class="page">
+    <div class="about-hero">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <div class="about-portrait">AZ</div>
+            <div class="about-portrait-label">Amine Zidi, Founder &amp; Editor</div>
+          </div>
+          <div class="about-content">
+            <div class="page-eyebrow">About</div>
+            <h1 class="about-name serif">Amine Zidi</h1>
+            <div class="about-role">Founder &amp; Editor, Societas</div>
+            <p>
+              I am a high school student at Lycée Lyautey in Casablanca, in my final year with specialisations in Economics and Social Sciences and Mathematics. Societas was born out of a simple and genuine desire: to share what I care about with the people around me, my classmates and friends and perhaps with any curious visitor who happens to find these pages.
+            </p>
+            <div class="pull-quote">
+              "Knowledge only means something when it is shared. This site is my way of doing that."
+            </div>
+            <p>
+              My interests are broad and sincere. Politics in all its forms: the balance of power, the ideas that shape the world and the decisions that change lives. Cinema, which I consider one of the most powerful ways to understand a time, a society or a human condition. Sport, especially football and tennis, which have taught me as much about strategy, character and competition as any classroom. And law, which gives the structures of the world their clearest shape.
+            </p>
+            <p>
+              I do not claim to be an expert. I am someone who observes, reads and thinks and who believes that putting words to what you understand about the world is a worthwhile discipline, whether you are a student, a professional or simply a citizen. Societas is where I practise that.
+            </p>
+            <div class="about-disciplines">
+              <h3 class="serif">What I Write About</h3>
+              <div class="disc-list">
+                <div class="disc-item">
+                  <div class="disc-dot"></div>
+                  <div>
+                    <div class="disc-name">Politics &amp; Society</div>
+                    <div class="disc-desc">Power dynamics, political ideas, governance and what shapes our societies.</div>
+                  </div>
+                </div>
+                <div class="disc-item">
+                  <div class="disc-dot"></div>
+                  <div>
+                    <div class="disc-name">Cinema &amp; Culture</div>
+                    <div class="disc-desc">Film reviews and reflections on art as a mirror of the world.</div>
+                  </div>
+                </div>
+                <div class="disc-item">
+                  <div class="disc-dot"></div>
+                  <div>
+                    <div class="disc-name">Law &amp; Policy</div>
+                    <div class="disc-desc">Constitutional theory, international law and the architecture of regulatory systems.</div>
+                  </div>
+                </div>
+                <div class="disc-item">
+                  <div class="disc-dot"></div>
+                  <div>
+                    <div class="disc-name">Sport</div>
+                    <div class="disc-desc">Football, tennis and what sport reveals about strategy, character and human competition.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Societas</div>
+          <div class="footer-brand-sub">by Amine Zidi</div>
+          <p class="footer-desc">An independent journal on politics, cinema, law and society.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/in/mohamed-amine-zidi-1709b72a9/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://x.com/MohamedAmine_78" target="_blank" rel="noopener" aria-label="Twitter / X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('home')" href="#">Home</a></li>
+            <li><a onclick="showPage('blog')" href="#">All Essays</a></li>
+            <li><a onclick="showPage('contact')" href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Topics</div>
+          <ul class="footer-links">
+            <li><a onclick="showPage('blog'); filterPosts('politique')" href="#">Politics &amp; Society</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('cinema')" href="#">Cinema &amp; Culture</a></li>
+            <li><a onclick="showPage('blog'); filterPosts('sport')" href="#">Sport</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Societas, Amine Zidi. All rights reserved.</span>
+        <span>Written with passion. Published with sincerity.</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ══ PAGE: CONTACT ══════════════════════════════════════════════════ -->
+  <main id="page-contact" class="page">
+    <div class="contact-wrapper">
+      <div class="container">
+        <div class="page-eyebrow">Contact</div>
+        <h1 class="page-title serif" style="margin-bottom:48px;">Write to Me</h1>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <p>Want to respond to an essay, suggest a topic or simply have a conversation? All messages are read carefully. Do not hesitate.</p>
+            <p>Whether you are a classmate, a curious reader or a passing visitor, the discussion is open.</p>
+            <div class="contact-links">
+              <a class="contact-link-item" href="https://www.linkedin.com/in/mohamed-amine-zidi-1709b72a9/" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                Connect on LinkedIn
+              </a>
+              <a class="contact-link-item" href="https://x.com/MohamedAmine_78" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                Follow on X / Twitter
+              </a>
+            </div>
+          </div>
+          <div class="contact-form">
             <form onsubmit="handleContact(event)">
               <div class="form-group">
                 <label class="form-label" for="contact-name">Full Name</label>

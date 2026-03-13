@@ -915,11 +915,11 @@
     <div class="filter-bar">
       <div class="filter-inner">
         <span class="filter-label">Filter:</span>
-        <button class="filter-btn active" onclick="filterPosts('all')">All</button>
-        <button class="filter-btn" onclick="filterPosts('politique')">Politics &amp; Society</button>
-        <button class="filter-btn" onclick="filterPosts('cinema')">Cinema &amp; Culture</button>
-        <button class="filter-btn" onclick="filterPosts('law')">Law &amp; Policy</button>
-        <button class="filter-btn" onclick="filterPosts('sport')">Sport</button>
+        <button class="filter-btn active" data-category="all" onclick="filterPosts('all')">All</button>
+        <button class="filter-btn" data-category="politique" onclick="filterPosts('politique')">Politics &amp; Society</button>
+        <button class="filter-btn" data-category="cinema" onclick="filterPosts('cinema')">Cinema &amp; Culture</button>
+        <button class="filter-btn" data-category="law" onclick="filterPosts('law')">Law &amp; Policy</button>
+        <button class="filter-btn" data-category="sport" onclick="filterPosts('sport')">Sport</button>
       </div>
     </div>
     <div class="blog-list">
@@ -1605,10 +1605,180 @@
 
     window.addEventListener('popstate', handleHash);
 
+    /* ─── Article data & rendering (new architecture) ─────────────────── */
+    let allArticles = [];
+    let articlesLoaded = false;
+    let activeFilter = 'all';
+
+    async function loadArticles() {
+      if (articlesLoaded) return allArticles;
+
+      const basePosts = typeof posts !== 'undefined' ? posts.slice() : [];
+      let extra = [];
+
+      try {
+        const res = await fetch('articles.json', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            extra = data;
+          } else if (Array.isArray(data.articles)) {
+            extra = data.articles;
+          }
+        }
+      } catch (err) {
+        console.warn('Societas: could not load articles.json, using built-in posts only.', err);
+      }
+
+      allArticles = [...basePosts, ...extra];
+      articlesLoaded = true;
+      return allArticles;
+    }
+
+    function getSortedArticles() {
+      if (!allArticles || !allArticles.length) return [];
+      return [...allArticles].sort((a, b) => {
+        const da = a.dateISO ? new Date(a.dateISO) : new Date(a.date || 0);
+        const db = b.dateISO ? new Date(b.dateISO) : new Date(b.date || 0);
+        return db - da;
+      });
+    }
+
+    function renderHomeGrid() {
+      const grid = document.getElementById('home-post-grid');
+      if (!grid) return;
+      const sorted = getSortedArticles();
+      const latest = sorted.slice(0, 3);
+
+      grid.innerHTML = latest.map((post) => {
+        const imgLabel = (post.categoryLabel || '').slice(0, 1) || 'S';
+        return `
+          <article class="post-card" onclick="showPost('${post.slug || post.id}')">
+            <div class="post-card-image">
+              ${post.image ? `<img src="${post.image}" alt="${post.title || ''}" />` : imgLabel}
+            </div>
+            <div class="post-card-cat">${post.categoryLabel || ''}</div>
+            <h3 class="post-card-title">${post.title || ''}</h3>
+            <p class="post-card-excerpt">${post.excerpt || ''}</p>
+            <div class="post-card-meta">
+              <span>${post.date || ''}</span>
+              ${post.readTime ? ` · <span>${post.readTime}</span>` : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderBlogList() {
+      const list = document.getElementById('blog-list-grid');
+      if (!list) return;
+      const sorted = getSortedArticles();
+      const filtered = activeFilter === 'all'
+        ? sorted
+        : sorted.filter((post) => post.category === activeFilter);
+
+      list.innerHTML = filtered.map((post, idx) => `
+        <article class="blog-list-item" onclick="showPost('${post.slug || post.id}')">
+          <div class="blog-list-num">${String(idx + 1).padStart(2, '0')}</div>
+          <div class="blog-list-content">
+            <div class="blog-list-cat">${post.categoryLabel || ''}</div>
+            <h2 class="blog-list-title">${post.title || ''}</h2>
+            <p class="blog-list-excerpt">${post.excerpt || ''}</p>
+            <div class="blog-list-meta">
+              <span>${post.date || ''}</span>
+              ${post.readTime ? ` · <span>${post.readTime}</span>` : ''}
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function filterPosts(category) {
+      activeFilter = category || 'all';
+
+      document.querySelectorAll('.filter-btn').forEach((btn) => {
+        const key = btn.getAttribute('data-category') || 'all';
+        btn.classList.toggle('active', key === activeFilter);
+      });
+
+      renderBlogList();
+    }
+
+    function showPost(idOrSlug) {
+      if (!allArticles || !allArticles.length) return;
+      const isNumeric = typeof idOrSlug === 'number' || /^[0-9]+$/.test(String(idOrSlug));
+      const article = allArticles.find((p) =>
+        isNumeric ? String(p.id) === String(idOrSlug) : (p.slug === idOrSlug)
+      );
+      if (!article) return;
+
+      const catEl = document.getElementById('art-cat');
+      const crumbCatEl = document.getElementById('art-breadcrumb-cat');
+      const titleEl = document.getElementById('art-title');
+      const subtitleEl = document.getElementById('art-subtitle');
+      const dateEl = document.getElementById('art-date');
+      const readEl = document.getElementById('art-readtime');
+      const bodyEl = document.getElementById('art-body');
+
+      if (catEl) catEl.textContent = article.categoryLabel || '';
+      if (crumbCatEl) crumbCatEl.textContent = article.categoryLabel || '';
+      if (titleEl) titleEl.textContent = article.title || '';
+      if (subtitleEl) subtitleEl.textContent = article.subtitle || '';
+      if (dateEl) dateEl.textContent = article.date || '';
+      if (readEl) readEl.textContent = article.readTime || '';
+
+      if (bodyEl) {
+        if (Array.isArray(article.bodyBlocks)) {
+          bodyEl.innerHTML = article.bodyBlocks.map((block) => {
+            if (block.type === 'heading2') return `<h2>${block.text}</h2>`;
+            if (block.type === 'heading3') return `<h3>${block.text}</h3>`;
+            if (block.type === 'blockquote') return `<blockquote>${block.text}</blockquote>`;
+            if (block.type === 'conclusion') return `<div class="conclusion">${block.text}</div>`;
+            return `<p>${block.text}</p>`;
+          }).join('');
+        } else if (article.bodyHtml) {
+          bodyEl.innerHTML = article.bodyHtml;
+        } else if (typeof article.body === 'string') {
+          bodyEl.innerHTML = `<p>${article.body}</p>`;
+        } else {
+          bodyEl.innerHTML = '';
+        }
+      }
+
+      if (typeof showPage === 'function') {
+        showPage('article');
+      }
+
+      if (article.slug) {
+        const newHash = `#article/${encodeURIComponent(article.slug)}`;
+        if (window.location.hash !== newHash) {
+          window.location.hash = newHash;
+        }
+      }
+    }
+
+    function handleHash() {
+      const hash = window.location.hash || '#home';
+      if (hash.startsWith('#article/')) {
+        const slug = decodeURIComponent(hash.replace('#article/', ''));
+        showPost(slug);
+        return;
+      }
+
+      const page = hash.replace('#', '') || 'home';
+      if (typeof showPage === 'function') {
+        showPage(page);
+      }
+    }
+
+    window.addEventListener('popstate', handleHash);
+
     /* ─── Init ────────────────────────────────────────────────────────── */
-    renderHomeGrid();
-    renderBlogList();
-    handleHash();
+    loadArticles().then(() => {
+      renderHomeGrid();
+      renderBlogList();
+      handleHash();
+    });
 
   </script>
 </body>

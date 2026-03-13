@@ -1,0 +1,51 @@
+[
+  {
+    "id": 4,
+    "slug": "legalised-corruption-lobbying-in-america",
+    "category": "politique",
+    "categoryLabel": "Politics & Society",
+    "image": null,
+    "title": "Legalised Corruption: The Case Against Lobbying in America",
+    "subtitle": "Every year, billions of dollars flow from corporations and interest groups into the American political system. It is entirely legal. That is exactly the problem.",
+    "date": "March 2026",
+    "dateISO": "2026-03-01",
+    "readTime": "12 min read",
+    "excerpt": "Every year, billions of dollars flow from corporations and interest groups into the American political system. It is entirely legal. That is exactly the problem.",
+    "featured": true,
+    "bodyBlocks": [
+      {
+        "type": "paragraph",
+        "text": "American lobbying is often defended as a form of free speech. In practice, it has become an industry that allows those with the most money to purchase privileged access to lawmakers, shape regulations in the shadows and dilute the meaning of democratic representation."
+      },
+      {
+        "type": "paragraph",
+        "text": "This essay explores how lobbying works in practice, why it functions as a form of legalised corruption, and what it reveals about the weaknesses of American democracy. It is not an argument against persuasion or advocacy as such, but against a system that systematically amplifies some voices while muting others."
+      },
+      {
+        "type": "heading2",
+        "text": "How Lobbying Really Operates"
+      },
+      {
+        "type": "paragraph",
+        "text": "Lobbying is not just a matter of sending position papers or organising one‑off meetings with elected officials. It relies on permanent relationships between corporate interests and the political class: former legislators who pass through the \\"revolving door\\" into consultancy firms; think tanks funded by opaque donors; and legal strategies designed to stretch the limits of campaign finance rules."
+      },
+      {
+        "type": "blockquote",
+        "text": "In theory, every citizen has an equal right to petition their representatives. In reality, only a small group can afford to make their petitions impossible to ignore."
+      },
+      {
+        "type": "heading2",
+        "text": "Legal, But Not Legitimate"
+      },
+      {
+        "type": "paragraph",
+        "text": "Defenders of the status quo often insist that because lobbying is regulated, it cannot be corruption. But corruption is not only a matter of envelopes of cash exchanged in back rooms. It is also the gradual bending of public institutions towards private priorities, even when every rule is technically respected."
+      },
+      {
+        "type": "conclusion",
+        "text": "To take lobbying seriously is to recognise that the problem is not a few \\"bad actors\\" but an entire architecture of influence. So long as access to power is structured around money, the promise of equal citizenship will remain fragile."
+      }
+    ]
+  }
+]
+
